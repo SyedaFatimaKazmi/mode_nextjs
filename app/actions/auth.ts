@@ -138,13 +138,14 @@ export async function signUp(formData: FormData): Promise<ActionResponse> {
     // Create new user
     const user = await createUser(data.email, data.password)
     if (!user) {
+      console.log(data.email, data.password)
       return {
         success: false,
         message: 'Failed to create user',
         error: 'Failed to create user',
       }
     }
-
+    console.log("here")
     // Create session for the newly registered user
     await createSession(user.id)
 
@@ -162,14 +163,26 @@ export async function signUp(formData: FormData): Promise<ActionResponse> {
   }
 }
 
-export async function signOut(): Promise<void> {
-  try {
-    await mockDelay(300)
-    await deleteSession()
-  } catch (error) {
-    console.error('Sign out error:', error)
-    throw new Error('Failed to sign out')
-  } finally {
+// export async function signOut(): Promise<void> {
+//   try {
+//     await mockDelay(300)
+//     await deleteSession()
+//   } catch (error) {
+//     console.error('Sign out error:', error)
+//     throw new Error('Failed to sign out')
+//   } finally {
+//     redirect('/signin')
+//   }
+// }
+
+// or can be made like
+export const signOut = async () => { // route handler => cuz of 'use server'
+  try {                           // if use server aint used, these are going to be treated like regular functions 
+    await deleteSession()     // no route will be made
+  }catch (e){
+    console.error(e)
+    throw e
+  }finally {
     redirect('/signin')
   }
 }

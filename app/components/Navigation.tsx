@@ -3,6 +3,7 @@ import { HomeIcon, PlusIcon, LogInIcon } from 'lucide-react'
 import UserEmail from './UserEmail'
 import { Suspense } from 'react'
 import NavLink from './NavLink'
+import { mockDelay } from '@/lib/utils'
 
 export default function Navigation() {
   return (
@@ -33,6 +34,7 @@ export default function Navigation() {
       <div className="pt-4 border-t border-gray-200 dark:border-dark-border-subtle">
         <Suspense
           fallback={
+            // await mockDelay(2000)
             <NavLink
               href="/signin"
               icon={<LogInIcon size={20} />}

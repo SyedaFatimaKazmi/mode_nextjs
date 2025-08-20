@@ -7,6 +7,7 @@ import { getCurrentUser } from '@/lib/dal'
 import { z } from 'zod'
 import { mockDelay } from '@/lib/utils'
 import { revalidateTag } from 'next/cache'
+
 // Define Zod schema for issue validation
 const IssueSchema = z.object({
   title: z
@@ -35,10 +36,10 @@ export type ActionResponse = {
   error?: string
 }
 
-export async function createIssue(data: IssueData): Promise<ActionResponse> {
+//export async function createIssue(data: IssueData): Promise<ActionResponse> {
+export async function createIssue(data: IssueData){
   try {
     // Security check - ensure user is authenticated
-    await mockDelay(700)
     const user = await getCurrentUser()
     if (!user) {
       return {
@@ -69,7 +70,6 @@ export async function createIssue(data: IssueData): Promise<ActionResponse> {
     })
 
     revalidateTag('issues')
-
     return { success: true, message: 'Issue created successfully' }
   } catch (error) {
     console.error('Error creating issue:', error)
@@ -85,7 +85,7 @@ export async function updateIssue(
   id: number,
   data: Partial<IssueData>
 ): Promise<ActionResponse> {
-  try {
+  try { 
     // Security check - ensure user is authenticated
     await mockDelay(700)
     const user = await getCurrentUser()
@@ -133,7 +133,7 @@ export async function updateIssue(
       message: 'An error occurred while updating the issue',
       error: 'Failed to update issue',
     }
-  }
+  } 
 }
 
 export async function deleteIssue(id: number) {
@@ -147,7 +147,7 @@ export async function deleteIssue(id: number) {
 
     // Delete issue
     await db.delete(issues).where(eq(issues.id, id))
-
+    revalidateTag('issues')
     return { success: true, message: 'Issue deleted successfully' }
   } catch (error) {
     console.error('Error deleting issue:', error)
@@ -158,3 +158,5 @@ export async function deleteIssue(id: number) {
     }
   }
 }
+
+// export async function deleteIssue() {}
