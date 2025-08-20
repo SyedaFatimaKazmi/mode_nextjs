@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   experimental: {
     dynamicIO: true,
   },
-  typescript: {
+  // ignoring build errors to create a build locally
+  typescript: { 
     ignoreBuildErrors: true,
   },
   eslint: {

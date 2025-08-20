@@ -20,6 +20,7 @@ export const getCurrentUser = cache (async () => {
     .select()
     .from(users)
     .where (eq(users.id, session.userId))
+    //console.log("results", results)
     return results[0] || null
   }catch (e){
     console.error(e)

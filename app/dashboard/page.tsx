@@ -14,7 +14,7 @@ import { Priority, Status } from '@/lib/types'
 import { ISSUE_STATUS, ISSUE_PRIORITY } from '@/db/schema'
 
 export default async function DashboardPage() {
-  await getCurrentUser()
+  await getCurrentUser() // to observe memoizing behaviour
   const issues = await getIssues() // block rendering  - not in react
 
 // below part wont run till issues are recieved
